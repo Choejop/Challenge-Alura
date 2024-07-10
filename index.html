@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es-mx">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encriptador de Texto   </title>
+    <img src="./img/alura.png">
+    <style>
+        .header {
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            min-height: 100vh; /* Asegura que el contenido ocupe al menos el alto de la ventana */
+            position: relative;
+        }
+        .contenido {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-grow: 1;
+        }
+        .contenido textarea {
+            width: 100%;
+            height: 100px;
+            margin: 1px 0;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4%;
+            color: #0A3871; /* Color del texto azul */
+        }
+        .contenido__textoencriptador__aviso {
+            margin: 1px 0;
+            color: #f0f0f0;
+        }
+        .contenido__textoencriptador__botones {
+            display: flex;
+            justify-content: center;
+        }
+        .contenido__textoencriptador__botones button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 10px;
+            cursor: pointer;
+            color: #000000;
+            background-color: #0A3871; /* Fondo azul */
+            color: white; /* Texto blanco */
+        }
+        .contenido__textoencriptador__botones__desencriptar {
+            background-color: white; /* Fondo blanco */
+            color: #0A3871; /* Texto azul */
+        }
+        .respuesta_textoencriptador {
+            width: calc(45% - 20px);
+            margin-top: 5px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        .respuesta_textoencriptador_titulo {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #0A3871; /* Color del texto azul */
+        }
+        .respuesta_textoencriptador_texto {
+            font-size: 16px;
+            color: #0A3871; /* Color del texto azul */
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+    </header>
+    <main class="contenido">
+        <section class="contenido__textoencriptador">
+            <textarea id="texto" placeholder="Inserta el texto aquí"></textarea>
+            <div class="contenido__textoencriptador__aviso">
+                Solo letras minúsculas y sin acentos
+            </div>
+            <div class="contenido__textoencriptador__botones">
+                <button class="contenido__textoencriptador__botones__encriptar" onclick="procesar('encriptar')">Encriptar</button>
+                <button class="contenido__textoencriptador__botones__desencriptar" onclick="procesar('desencriptar')">Desencriptar</button>
+            </div>
+        </section>
+        <section class="respuesta_textoencriptador">
+            <h1 class="respuesta_textoencriptador_titulo"></h1>
+            <p class="respuesta_textoencriptador_texto"> Ingresa el texto que desees encriptar o desencriptar</p>
+            <button onclick="copiarTexto()">Copiar al portapapeles</button>
+            <div id="resultado"></div>
+        </section>
+    </main>
+    <footer>
+        <p>Desarrollado por ChoeJop</p>
+    </footer>
+
+    <script>
+        function procesar(opcion) {
+            let texto = document.getElementById('texto').value.trim();
+            let resultado = '';
+
+            if (opcion === 'encriptar') {
+                resultado = encriptar(texto);
+            } else {
+                resultado = desencriptar(texto);
+            }
+
+            mostrarResultado(resultado);
+        }
+
+        function encriptar(texto) {
+            let textoEncriptado = texto.replace(/e/g, "enter")
+                                      .replace(/i/g, "imes")
+                                      .replace(/a/g, "ai")
+                                      .replace(/o/g, "ober")
+                                      .replace(/u/g, "ufat");
+            return textoEncriptado;
+        }
+
+        function desencriptar(textoEncriptado) {
+            let texto = textoEncriptado.replace(/enter/g, "e")
+                                       .replace(/imes/g, "i")
+                                       .replace(/ai/g, "a")
+                                       .replace(/ober/g, "o")
+                                       .replace(/ufat/g, "u");
+            return texto;
+        }
+
+        function mostrarResultado(resultado) {
+            document.getElementById('resultado').innerHTML = `<p>${resultado}</p>`;
+        }
+
+        function copiarTexto() {
+            let resultado = document.getElementById('resultado').innerText;
+
+            navigator.clipboard.writeText(resultado)
+                .then(() => {
+                    alert('Texto copiado al portapapeles');
+                })
+                .catch(err => {
+                    console.error('Error al intentar copiar: ', err);
+                    alert('Error al intentar copiar el texto');
+                });
+        }
+    </script>
+</body>
+</html>
